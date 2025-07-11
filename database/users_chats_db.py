@@ -78,8 +78,8 @@ class Database:
     async def get_banned(self):
         users = self.col.find({'ban_status.is_banned': True})
         chats = self.grp.find({'chat_status.is_disabled': True})
-        b_chats = [chat async for chat in await db.chat.find()]
-        b_users = [user async for user in await db.user.find()]
+        b_chats = [chat async for chat in db.chats.find()]
+        b_users = [user async for user in db.users.find()]
         return b_users, b_chats
     
 
