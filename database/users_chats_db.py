@@ -77,8 +77,10 @@ class Database:
 
 
     async def get_banned(self):
-        b_users = [user async for user in users_collection.find({'ban_status.is_banned': True})]
-        b_chats = [chat async for chat in chats_collection.find({'chat_status.is_disabled': True})]
+        users = self.col.find({'ban_status.is_banned': True})
+        chats = self.grp.find({'chat_status.is_disabled': True})
+        b_chats = [chat['id'] async for chat in chats]
+        b_users = [user['id'] async for user in users]
         return b_users, b_chats
     
 
