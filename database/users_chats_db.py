@@ -1,5 +1,5 @@
 import motor.motor_asyncio
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_USERS, P_TTI_SHOW_OFF, SINGLE_BUTTON, SPELL_CHECK_REPLY, PROTECT_CONTENT
 
 class Database:
@@ -77,8 +77,8 @@ class Database:
 
 
     async def get_banned(self):
-        b_users = [user async for user in db["users"].find({'ban_status.is_banned': True})]
-        b_chats = [chat async for chat in db["chats"].find({'chat_status.is_disabled': True})]
+        b_users = [user async for user in users_collection.find({'ban_status.is_banned': True})]
+        b_chats = [chat async for chat in chats_collection.find({'chat_status.is_disabled': True})]
         return b_users, b_chats
     
 
