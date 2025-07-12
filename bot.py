@@ -66,8 +66,8 @@ class Bot(Client):
                         timeout=aiohttp.ClientTimeout(total=10)
                     ) as session:
                         async with session.get(WEB_URL) as resp:
-                        logging.info(
-                            "Pinged {} with response: {}".format(
+                            logging.info(
+                                    "Pinged {} with response: {}".format(
                                 WEB_URL, resp.status
                             )
                         )
