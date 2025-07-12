@@ -58,14 +58,14 @@ class Bot(Client):
         logging.info("Keep Alive Service Started")
 
     async def keep_alive():
-    if WEB_URL:
-        while True:
-            await asyncio.sleep(WEB_SLLEP)
-            try:
-                async with aiohttp.ClientSession(
-                    timeout=aiohttp.ClientTimeout(total=10)
-                ) as session:
-                    async with session.get(WEB_URL) as resp:
+        if WEB_URL:
+            while True:
+                await asyncio.sleep(WEB_SLLEP)
+                try:
+                    async with aiohttp.ClientSession(
+                        timeout=aiohttp.ClientTimeout(total=10)
+                    ) as session:
+                        async with session.get(WEB_URL) as resp:
                         logging.info(
                             "Pinged {} with response: {}".format(
                                 WEB_URL, resp.status
