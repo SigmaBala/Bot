@@ -36,7 +36,7 @@ class Bot(Client):
             sleep_threshold=5,
         )
 
-    async def alive():
+    async def kalive():
         if WEB_URL:
             while True:
                 await asyncio.sleep(WEB_SLLEP)
@@ -73,7 +73,7 @@ class Bot(Client):
         logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
         logging.info(LOG_STR)
 
-        asyncio.create_task(alive())
+        asyncio.create_task(kalive())
         logging.info("Keep Alive Service Started")
     
     async def iter_messages(
