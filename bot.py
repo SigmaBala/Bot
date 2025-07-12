@@ -20,7 +20,7 @@ from plugins import web_server
 
 PORT = 8080
 
-WEB_URL = ""
+WEB_URL = "https://shinchanbot-e0xd.onrender.com"
 WEB_SLLEP = 3*60
 
 class Bot(Client):
@@ -55,11 +55,7 @@ class Bot(Client):
         logging.info(LOG_STR)
 
         asyncio.create_task(keep_alive())
-        log.info("Keep Alive Service Started")
-
-    async def stop(self, *args):
-        await super().stop()
-        logging.info("Bot stopped. Bye.")
+        logging.info("Keep Alive Service Started")
 
     async def keep_alive():
     if WEB_URL:
@@ -70,13 +66,13 @@ class Bot(Client):
                     timeout=aiohttp.ClientTimeout(total=10)
                 ) as session:
                     async with session.get(WEB_URL) as resp:
-                        log.info(
+                        logging.info(
                             "Pinged {} with response: {}".format(
                                 WEB_URL, resp.status
                             )
                         )
             except asyncio.TimeoutError:
-                log.warning("Couldn't connect to the site URL..!")
+                logging.warning("Couldn't connect to the site URL..!")
             except Exception:
                 traceback.print_exc()
     
