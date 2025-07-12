@@ -36,6 +36,25 @@ class Bot(Client):
             sleep_threshold=5,
         )
 
+    async def keep_alive():
+        if WEB_URL:
+            while True:
+                await asyncio.sleep(WEB_SLLEP)
+                try:
+                    async with aiohttp.ClientSession(
+                        timeout=aiohttp.ClientTimeout(total=10)
+                    ) as session:
+                        async with session.get(WEB_URL) as resp:
+                            logging.info(
+                                    "Pinged {} with response: {}".format(
+                                WEB_URL, resp.status
+                            )
+                        )
+                except asyncio.TimeoutError:
+                 logging.warning("Couldn't connect to the site URL..!")
+                except Exception:
+                 traceback.print_exc()
+
     async def start(self):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
@@ -56,25 +75,6 @@ class Bot(Client):
 
         asyncio.create_task(keep_alive())
         logging.info("Keep Alive Service Started")
-
-    async def keep_alive():
-        if WEB_URL:
-            while True:
-                await asyncio.sleep(WEB_SLLEP)
-                try:
-                    async with aiohttp.ClientSession(
-                        timeout=aiohttp.ClientTimeout(total=10)
-                    ) as session:
-                        async with session.get(WEB_URL) as resp:
-                            logging.info(
-                                    "Pinged {} with response: {}".format(
-                                WEB_URL, resp.status
-                            )
-                        )
-                except asyncio.TimeoutError:
-                 logging.warning("Couldn't connect to the site URL..!")
-                except Exception:
-                 traceback.print_exc()
     
     async def iter_messages(
         self,
