@@ -1,4 +1,4 @@
-import logging
+import logging, asyncio, aiohttp, traceback
 import logging.config
 
 # Get logging configurations
@@ -19,6 +19,9 @@ from aiohttp import web
 from plugins import web_server
 
 PORT = 8080
+
+WEB_URL = ""
+WEB_SLLEP = 3*60
 
 class Bot(Client):
 
@@ -51,9 +54,31 @@ class Bot(Client):
         logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
         logging.info(LOG_STR)
 
+        asyncio.create_task(keep_alive())
+        log.info("Keep Alive Service Started")
+
     async def stop(self, *args):
         await super().stop()
         logging.info("Bot stopped. Bye.")
+
+    async def keep_alive():
+    if WEB_URL:
+        while True:
+            await asyncio.sleep(WEB_SLLEP)
+            try:
+                async with aiohttp.ClientSession(
+                    timeout=aiohttp.ClientTimeout(total=10)
+                ) as session:
+                    async with session.get(WEB_URL) as resp:
+                        log.info(
+                            "Pinged {} with response: {}".format(
+                                WEB_URL, resp.status
+                            )
+                        )
+            except asyncio.TimeoutError:
+                log.warning("Couldn't connect to the site URL..!")
+            except Exception:
+                traceback.print_exc()
     
     async def iter_messages(
         self,
