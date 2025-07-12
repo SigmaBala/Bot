@@ -71,10 +71,10 @@ class Bot(Client):
                                 WEB_URL, resp.status
                             )
                         )
-               except asyncio.TimeoutError:
-                logging.warning("Couldn't connect to the site URL..!")
-               except Exception:
-                traceback.print_exc()
+                except asyncio.TimeoutError:
+                 logging.warning("Couldn't connect to the site URL..!")
+                except Exception:
+                 traceback.print_exc()
     
     async def iter_messages(
         self,
